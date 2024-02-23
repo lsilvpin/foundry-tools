@@ -1,0 +1,34 @@
+{
+  "id": "lsilvpin",
+  "title": "lsilvpin",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "authors": [
+    {
+      "name": "Luís Henrique da Silva Pinheiro"
+    }
+  ],
+  "esmodules": [
+    "scripts/module.js"
+  ],
+  "scripts": [
+    "scripts/lib/models/movesList.js",
+    "scripts/lib/tools/logger.js",
+    "scripts/lib/tools/chatter.js",
+    "scripts/lib/tools/moves.js"
+  ],
+  "styles": [
+    "styles/module.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    }
+  ],
+  "license": "LICENSE"
+}
