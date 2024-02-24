@@ -122,8 +122,8 @@ const MOVES_LIST = [
         "falhaCritica": "<p>Falha Crítica => O contramestre comete uma gafe e faz com que a equipe perda todas as suas rações. O desbravador se perde completamente, e faz com que o grupo caia em uma armadilha terrível ou se perdam completamente. O batedor não só não percebe os perigos, o que faz com que o grupo seja surpreendido em todos os combates desta jornada, como também coloca o grupo em perigos desnecessários.</p>"
     },
     {
-        "tag": "Make Camp (Destreza)",
-        "flavor": "Montar Acampamento",
+        "tag": "Make Camp",
+        "flavor": "Montar Acampamento (Destreza)",
         "trigger": "Você monta acampamento para descansar e se recuperar",
         "description": "",
         "sucessoCritico": "<p>Sucesso Crítico => O acampamento é bom o suficiente para que vocês façam descansos curtos ou longos, e vocês ganham um benefício extra</p>",
