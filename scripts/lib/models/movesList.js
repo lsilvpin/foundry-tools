@@ -22,7 +22,8 @@
  */
 const MOVES_LIST = [
     {
-        "flavor": "Desafiar Destino",
+        "tag": "Defy Danger",
+        "flavor": "Desafiar perigo",
         "trigger": "Você realiza uma ação cujo resultado é incerto",
         "sucessoCritico": "<p>Sucesso Crítico => Você alcança seu objetivo e recebe um benefício extra</p>",
         "sucesso": "<p>Sucesso => Você alcança seu objetivo</p>",

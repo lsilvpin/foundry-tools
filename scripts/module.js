@@ -11,13 +11,6 @@ Hooks.on('init', () => {
 Hooks.on('ready', () => {
     game.lsilvpin = {
         /**
-         * The commonTests object contains various test functions for the lsilvpin module.
-         * It includes the following functions: run.
-         */        
-        commonTests: {
-            run
-        },
-        /**
          * The logger object provides logging functionality for the lsilvpin module.
          * It contains the following methods: info, warn, error.
          */
@@ -38,9 +31,7 @@ Hooks.on('ready', () => {
          * It includes the following functions: moveTest, defyDanger, selectCharacterPopup, getMovesData.
          */
         moves: {
-            moveTest,
             defyDanger,
-            selectCharacterPopup,
             getMovesData
         }
     }

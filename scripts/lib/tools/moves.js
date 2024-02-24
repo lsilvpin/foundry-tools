@@ -1,23 +1,28 @@
-
-/**
- * Executes a move test.
- */
-function moveTest() {
-    console.log("Move test")
-}
-
 /**
  * Executes a defy danger move.
  */
 function defyDanger() {
-    let msgObj = MOVES_LIST.find(o => o.flavor == 'Desafiar Destino')
-    msgObj.resultBuilder = (msgObj, roll) => getGenericResultMessage(msgObj, roll)
+    let moveTag = "Defy Danger"
+    runMove(moveTag)
+}
+
+/**
+ * 
+ * This function is used to run a move
+ * 
+ * @param {*} moveTag Move tag
+ */
+function runMove(moveTag) {
+    let moveObj = MOVES_LIST.find(o => o.tag == moveTag)
+    moveObj.resultBuilder = (msgObj, roll) => getMoveResultMessage(msgObj, roll)
     selectCharacterPopup(selectedChar => {
-        selectAttribute(msgObj, selectedTag => {
+        selectAttribute(moveObj, selectedTag => {
             let charLevel = selectedChar.system.details.level
             selectProficiencyPopup(charLevel, (proficiencyValue) => {
-                msgObj.proficiency = proficiencyValue        
-                rollMove(selectedChar, selectedTag, msgObj)
+                selectAdvantagePopup(selectedAdvantage => {
+                    moveObj.proficiency = proficiencyValue
+                    rollMove(selectedChar, selectedTag, selectedAdvantage, moveObj)
+                })
             })
         })
     })
@@ -29,15 +34,35 @@ function defyDanger() {
  * 
  * @param {*} selectedChar Character selected to roll the move
  * @param {*} selectedTag Tag of the selected attribute
+ * @param {*} selectedAdvantage Advantage selected for the move
  * @param {*} msgObj Object with the move data
  */
-function rollMove(selectedChar, selectedTag, msgObj) {
+function rollMove(selectedChar, selectedTag, selectedAdvantage, msgObj) {
     let mod = selectedChar.system.abilities[selectedTag].mod
     msgObj.attributeValue = mod
-    let roll = new Roll(`1d20 + ${mod + msgObj.proficiency}`).evaluate({ async: false })
+    let diceFormula = buildDiceFormula(selectedAdvantage)
+    let roll = new Roll(`${diceFormula} + ${mod + msgObj.proficiency}`).evaluate({ async: false })
     let result = roll._total
     let speaker = buildSpeakerToGm()
     sendMsgToChat(speaker, result, msgObj, roll)
+}
+
+/**
+ * 
+ * This function is used to build the dice formula
+ * 
+ * @param {*} selectedAdvantage Selected advantage
+ * @returns The dice formula
+ */
+function buildDiceFormula(selectedAdvantage) {
+    let diceFormula = '1d20'
+    if (selectedAdvantage == 'Vantagem') {
+        diceFormula = `${diceFormula}kh1`
+    }
+    else if (selectedAdvantage == 'Desvantagem') {
+        diceFormula = `${diceFormula}kl1`
+    }
+    return diceFormula
 }
 
 /**
@@ -138,6 +163,17 @@ function selectProficiencyPopup(characterLevel, action = (proficiencyValue) => c
         }
         action(profValue)
     })
+}
+
+/**
+ * 
+ * This function is used to select the advantage for the move
+ * 
+ * @param {*} action Action to be executed after the selection
+ */
+function selectAdvantagePopup(action = (selectedItem) => console.log(selectedItem)) {
+    let options = ['Normal', 'Vantagem', 'Desvantagem']
+    selectOptionPopup(options, action)
 }
 
 /**
@@ -254,7 +290,7 @@ function getMovesData() {
  * @param {*} roll Roll object
  * @returns The result message
  */
-function getGenericResultMessage(msgObj, roll) {
+function getMoveResultMessage(msgObj, roll) {
     console.log('Formula', roll._formula)
     let modifier = parseInt(roll._formula.replace('1d20 + ', '').replace(/ /g, ''))
     console.log('Modifier', modifier)
