@@ -1,31 +1,92 @@
-
-function moveTest() {
-    console.log("Move test")
+/**
+ * Executes a defy danger move.
+ */
+function defyDanger() {
+    let moveTag = "Defy Danger"
+    runMove(moveTag)
 }
 
-function defyDanger() {
-    let msgObj = MOVES_LIST.find(o => o.flavor == 'Desafiar Destino')
-    msgObj.resultBuilder = (msgObj, roll) => getGenericResultMessage(msgObj, roll)
+/**
+ * Choose a move to be executed.
+ */
+function chooseMove() {
+    let moveFlavors = MOVES_LIST.map(m => m.flavor)
+    selectOptionPopup("Selecione um movimento", moveFlavors, (selectedMove) => {
+        let selectedTag = MOVES_LIST.find(m => m.flavor == selectedMove).tag
+        runMove(selectedTag)
+    })
+}
+
+/**
+ * 
+ * This function is used to run a move
+ * 
+ * @param {*} moveTag Move tag
+ */
+function runMove(moveTag) {
+    let moveObj = MOVES_LIST.find(o => o.tag == moveTag)
+    moveObj.resultBuilder = (msgObj, roll) => getMoveResultMessage(msgObj, roll)
     selectCharacterPopup(selectedChar => {
-        selectAttribute(msgObj, selectedTag => {
+        selectAttribute(moveObj, selectedTag => {
             let charLevel = selectedChar.system.details.level
             selectProficiencyPopup(charLevel, (proficiencyValue) => {
-                msgObj.proficiency = proficiencyValue        
-                rollMove(selectedChar, selectedTag, msgObj)
+                selectAdvantagePopup(selectedAdvantage => {
+                    moveObj.proficiency = proficiencyValue
+                    rollMove(selectedChar, selectedTag, selectedAdvantage, moveObj)
+                })
             })
         })
     })
 }
 
-function rollMove(selectedChar, selectedTag, msgObj) {
+/**
+ * 
+ * This function is used to roll the move
+ * 
+ * @param {*} selectedChar Character selected to roll the move
+ * @param {*} selectedTag Tag of the selected attribute
+ * @param {*} selectedAdvantage Advantage selected for the move
+ * @param {*} msgObj Object with the move data
+ */
+function rollMove(selectedChar, selectedTag, selectedAdvantage, msgObj) {
     let mod = selectedChar.system.abilities[selectedTag].mod
     msgObj.attributeValue = mod
-    let roll = new Roll(`1d20 + ${mod + msgObj.proficiency}`).evaluate({ async: false })
+    let diceFormula = buildDiceFormula(selectedAdvantage)
+    let roll = new Roll(`${diceFormula} + ${mod + msgObj.proficiency}`).evaluate({ async: false })
     let result = roll._total
     let speaker = buildSpeakerToGm()
     sendMsgToChat(speaker, result, msgObj, roll)
 }
 
+/**
+ * 
+ * This function is used to build the dice formula
+ * 
+ * @param {*} selectedAdvantage Selected advantage
+ * @returns The dice formula
+ */
+function buildDiceFormula(selectedAdvantage) {
+    let diceFormula = 'd20'
+    if (selectedAdvantage == 'Vantagem') {
+        diceFormula = `2${diceFormula}kh1`
+    }
+    else if (selectedAdvantage == 'Desvantagem') {
+        diceFormula = `2${diceFormula}kl1`
+    }
+    else {
+        diceFormula = `1${diceFormula}`
+    }
+    return diceFormula
+}
+
+/**
+ * 
+ * This function is used to build the message to be sent to the chat
+ * 
+ * @param {*} msgObj Object with the move data
+ * @param {*} roll Roll object
+ * @returns 
+ */
 function genericMsgBuilder(msgObj, roll) {
     let result = msgObj.resultBuilder(msgObj, roll)
     return `
@@ -40,6 +101,13 @@ function genericMsgBuilder(msgObj, roll) {
     `
 }
 
+/**
+ * 
+ * This function is used to select an attribute for the move
+ * 
+ * @param {*} msgObj Object with the move data
+ * @param {*} action Action to be executed after the selection
+ */
 function selectAttribute(msgObj, action = (selectedTag) => console.log(selectedTag)) {
     let atts = [
         {
@@ -68,24 +136,37 @@ function selectAttribute(msgObj, action = (selectedTag) => console.log(selectedT
         }
     ]
 
-    selectOptionPopup(atts.map(a => a.name), (selectedItem) => {
+    selectOptionPopup("Selecione um atributo", atts.map(a => a.name), (selectedItem) => {
         let selectedAtt = atts.find(a => a.name == selectedItem)
         msgObj.attribute = selectedAtt.name
         action(selectedAtt.tag)
     })
 }
 
+/**
+ * 
+ * This function is used to select a character for the move
+ * 
+ * @param {*} action Action to be executed after the selection
+ */
 function selectCharacterPopup(action = (selectedChar) => console.log(selectedChar)) {
     let charNames = game.actors.map(a => a.name)
-    selectOptionPopup(charNames, (selectedCharName) => {
+    selectOptionPopup("Selecione um personagem", charNames, (selectedCharName) => {
         let selectedChar = game.actors.find(a => a.name == selectedCharName)
         action(selectedChar)
     })
 }
 
+/**
+ * 
+ * This function is used to select the proficiency for the move
+ * 
+ * @param {*} characterLevel Character level
+ * @param {*} action Action to be executed after the selection
+ */
 function selectProficiencyPopup(characterLevel, action = (proficiencyValue) => console.log(proficiencyValue)) {
     let proficiencies = ['None', 'Proficiency', 'Expertise']
-    selectOptionPopup(proficiencies, (selectedItem) => {
+    selectOptionPopup("Selecione a proficiência", proficiencies, (selectedItem) => {
         let profValue = 0
         let prof = calcProficiency(characterLevel)
         if (selectedItem == 'Proficiency') {
@@ -98,23 +179,48 @@ function selectProficiencyPopup(characterLevel, action = (proficiencyValue) => c
     })
 }
 
+/**
+ * 
+ * This function is used to select the advantage for the move
+ * 
+ * @param {*} action Action to be executed after the selection
+ */
+function selectAdvantagePopup(action = (selectedItem) => console.log(selectedItem)) {
+    let options = ['Normal', 'Vantagem', 'Desvantagem']
+    selectOptionPopup("Selecione a vantagem", options, action)
+}
+
+/**
+ * 
+ * This function is used to calculate the proficiency value
+ * 
+ * @param {*} level Level of the character
+ * @returns Proficiency value
+ */
 function calcProficiency(level) {
     let calcLevel = Math.max(1, level)
     let prof = Math.floor(((calcLevel - 1) / 4) + 2)
     return prof
 }
 
-function selectOptionPopup(options, action = (selectedItem) => console.log(selectedItem)) {
+/**
+ * 
+ * This function is used to display a popup with options
+ * 
+ * @param {*} options Opitions to be displayed in the popup
+ * @param {*} action Action to be executed after the selection
+ */
+function selectOptionPopup(title, options, action = (selectedItem) => console.log(selectedItem)) {
     const opcoesHtml = options
         .map((opcao, index) => `<option value="${index + 1}">${opcao}</option>`)
         .join('');
     const content = `
-        <label for="lsilvpinCharSelectPopup">Selecione uma Opção:</label>
+        <label for="lsilvpinCharSelectPopup">Opções:</label>
         <select id="lsilvpinCharSelectPopup">${opcoesHtml}</select>
     `;
 
     let dialog = Dialog.prompt({
-        title: "Ferramenta de Seleção",
+        title: title,
         content: content,
         buttons: {
             ok: {
@@ -132,6 +238,15 @@ function selectOptionPopup(options, action = (selectedItem) => console.log(selec
     })
 }
 
+/**
+ * 
+ * This function is used to send the message to the chat
+ * 
+ * @param {*} speaker Speaker object
+ * @param {*} result Result of the roll
+ * @param {*} msgObj Object with the move data
+ * @param {*} roll Roll object
+ */
 function sendMsgToChat(speaker, result, msgObj, roll) {
     let explanation = genericMsgBuilder(msgObj, roll)
     let msgData = {
@@ -150,6 +265,12 @@ function sendMsgToChat(speaker, result, msgObj, roll) {
     }
 }
 
+/**
+ * 
+ * This function is used to build the speaker object
+ * 
+ * @returns Speaker object
+ */
 function buildSpeakerToGm() {
     let speaker = {}
     if (game.user.isGM) {
@@ -165,13 +286,27 @@ function buildSpeakerToGm() {
     return speaker
 }
 
+/**
+ * 
+ * This function is used to get the list of moves
+ * 
+ * @returns List of moves
+ */
 function getMovesData() {
     return MOVES_LIST
 }
 
-function getGenericResultMessage(msgObj, roll) {
+/**
+ * 
+ * This function is used to get the result message for the move
+ * 
+ * @param {*} msgObj Object with the move dataj
+ * @param {*} roll Roll object
+ * @returns The result message
+ */
+function getMoveResultMessage(msgObj, roll) {
     console.log('Formula', roll._formula)
-    let modifier = parseInt(roll._formula.replace('1d20 + ', '').replace(/ /g, ''))
+    let modifier = parseInt(roll._formula.split("+ ")[1].trim().replace(/\s/g, ''));
     console.log('Modifier', modifier)
     console.log('Total', roll._total)
     let diceRoll = roll._total - modifier
@@ -203,6 +338,12 @@ function getGenericResultMessage(msgObj, roll) {
     }
 }
 
+/**
+ * 
+ * This function is used to get the GM user
+ * 
+ * @returns The GM user
+ */
 function getGm() {
     return game.users.find(u => u.isGM)
 }
