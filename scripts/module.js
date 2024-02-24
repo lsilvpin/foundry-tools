@@ -32,6 +32,7 @@ Hooks.on('ready', () => {
          */
         moves: {
             defyDanger,
+            chooseMove,
             getMovesData
         }
     }

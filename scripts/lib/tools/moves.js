@@ -7,6 +7,17 @@ function defyDanger() {
 }
 
 /**
+ * Choose a move to be executed.
+ */
+function chooseMove() {
+    let moveFlavors = MOVES_LIST.map(m => m.flavor)
+    selectOptionPopup("Selecione um movimento", moveFlavors, (selectedMove) => {
+        let selectedTag = MOVES_LIST.find(m => m.flavor == selectedMove).tag
+        runMove(selectedTag)
+    })
+}
+
+/**
  * 
  * This function is used to run a move
  * 
@@ -55,12 +66,15 @@ function rollMove(selectedChar, selectedTag, selectedAdvantage, msgObj) {
  * @returns The dice formula
  */
 function buildDiceFormula(selectedAdvantage) {
-    let diceFormula = '1d20'
+    let diceFormula = 'd20'
     if (selectedAdvantage == 'Vantagem') {
-        diceFormula = `${diceFormula}kh1`
+        diceFormula = `2${diceFormula}kh1`
     }
     else if (selectedAdvantage == 'Desvantagem') {
-        diceFormula = `${diceFormula}kl1`
+        diceFormula = `2${diceFormula}kl1`
+    }
+    else {
+        diceFormula = `1${diceFormula}`
     }
     return diceFormula
 }
@@ -122,7 +136,7 @@ function selectAttribute(msgObj, action = (selectedTag) => console.log(selectedT
         }
     ]
 
-    selectOptionPopup(atts.map(a => a.name), (selectedItem) => {
+    selectOptionPopup("Selecione um atributo", atts.map(a => a.name), (selectedItem) => {
         let selectedAtt = atts.find(a => a.name == selectedItem)
         msgObj.attribute = selectedAtt.name
         action(selectedAtt.tag)
@@ -137,7 +151,7 @@ function selectAttribute(msgObj, action = (selectedTag) => console.log(selectedT
  */
 function selectCharacterPopup(action = (selectedChar) => console.log(selectedChar)) {
     let charNames = game.actors.map(a => a.name)
-    selectOptionPopup(charNames, (selectedCharName) => {
+    selectOptionPopup("Selecione um personagem", charNames, (selectedCharName) => {
         let selectedChar = game.actors.find(a => a.name == selectedCharName)
         action(selectedChar)
     })
@@ -152,7 +166,7 @@ function selectCharacterPopup(action = (selectedChar) => console.log(selectedCha
  */
 function selectProficiencyPopup(characterLevel, action = (proficiencyValue) => console.log(proficiencyValue)) {
     let proficiencies = ['None', 'Proficiency', 'Expertise']
-    selectOptionPopup(proficiencies, (selectedItem) => {
+    selectOptionPopup("Selecione a proficiência", proficiencies, (selectedItem) => {
         let profValue = 0
         let prof = calcProficiency(characterLevel)
         if (selectedItem == 'Proficiency') {
@@ -173,7 +187,7 @@ function selectProficiencyPopup(characterLevel, action = (proficiencyValue) => c
  */
 function selectAdvantagePopup(action = (selectedItem) => console.log(selectedItem)) {
     let options = ['Normal', 'Vantagem', 'Desvantagem']
-    selectOptionPopup(options, action)
+    selectOptionPopup("Selecione a vantagem", options, action)
 }
 
 /**
@@ -196,17 +210,17 @@ function calcProficiency(level) {
  * @param {*} options Opitions to be displayed in the popup
  * @param {*} action Action to be executed after the selection
  */
-function selectOptionPopup(options, action = (selectedItem) => console.log(selectedItem)) {
+function selectOptionPopup(title, options, action = (selectedItem) => console.log(selectedItem)) {
     const opcoesHtml = options
         .map((opcao, index) => `<option value="${index + 1}">${opcao}</option>`)
         .join('');
     const content = `
-        <label for="lsilvpinCharSelectPopup">Selecione uma Opção:</label>
+        <label for="lsilvpinCharSelectPopup">Opções:</label>
         <select id="lsilvpinCharSelectPopup">${opcoesHtml}</select>
     `;
 
     let dialog = Dialog.prompt({
-        title: "Ferramenta de Seleção",
+        title: title,
         content: content,
         buttons: {
             ok: {
@@ -292,7 +306,7 @@ function getMovesData() {
  */
 function getMoveResultMessage(msgObj, roll) {
     console.log('Formula', roll._formula)
-    let modifier = parseInt(roll._formula.replace('1d20 + ', '').replace(/ /g, ''))
+    let modifier = parseInt(roll._formula.split("+ ")[1].trim().replace(/\s/g, ''));
     console.log('Modifier', modifier)
     console.log('Total', roll._total)
     let diceRoll = roll._total - modifier
