@@ -16,8 +16,6 @@
   ],
   "scripts": [
     "scripts/lib/models/movesList.js",
-    "scripts/lib/tests/common/commonTests.js",
-    "scripts/lib/tests/loggerTests.js",
     "scripts/lib/tools/logger.js",
     "scripts/lib/tools/chatter.js",
     "scripts/lib/tools/moves.js"

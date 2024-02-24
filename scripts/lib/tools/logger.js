@@ -1,4 +1,3 @@
-
 /**
  * Logs an informational message to the console.
  * 

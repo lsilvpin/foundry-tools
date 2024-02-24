@@ -1,4 +1,3 @@
-
 /**
  * Sends a chat message.
  * @param {string} message - The content of the chat message.

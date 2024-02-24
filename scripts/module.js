@@ -1,18 +1,17 @@
-
 /**
- * This file contains the initialization and configuration of the lsilvpin module.
- * It defines various hooks and sets up the game object with custom properties and functions.
+ * This hook specifies the initialization of the lsilvpin module.
  */
-
 Hooks.on('init', () => {
     console.log("Teste custom module")
 });
 
+/**
+ * This hook specifies the ready event for the lsilvpin module.
+ */
 Hooks.on('ready', () => {
     game.lsilvpin = {
         /**
          * The logger object provides logging functionality for the lsilvpin module.
-         * It contains the following methods: info, warn, error.
          */
         logger: {
             info,
@@ -21,17 +20,14 @@ Hooks.on('ready', () => {
         },
         /**
          * The chatter object provides chat functionality for the lsilvpin module.
-         * It contains the following method: sendChat.
          */
         chatter: {
             sendChat
         },
         /**
-         * The moves object contains various move functions for the lsilvpin module.
-         * It includes the following functions: moveTest, defyDanger, selectCharacterPopup, getMovesData.
+         * The moves object provides move functionality for the lsilvpin module.
          */
         moves: {
-            defyDanger,
             chooseMove,
             getMovesData
         }

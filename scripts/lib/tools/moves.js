@@ -1,12 +1,4 @@
 /**
- * Executes a defy danger move.
- */
-function defyDanger() {
-    let moveTag = "Defy Danger"
-    runMove(moveTag)
-}
-
-/**
  * Choose a move to be executed.
  */
 function chooseMove() {
@@ -248,12 +240,17 @@ function selectOptionPopup(title, options, action = (selectedItem) => console.lo
  * @param {*} roll Roll object
  */
 function sendMsgToChat(speaker, result, msgObj, roll) {
-    let explanation = genericMsgBuilder(msgObj, roll)
+    let trigger = genericMsgBuilder(msgObj, roll)
+    let content = `<h2>${roll._formula} = ${result}</h2><p>${trigger}</p>`
+    let description = msgObj.description ? msgObj.description : ''
+    if (description != '') {
+        content += `<h3>Descrição:</h3>${description}`
+    }
     let msgData = {
         rollMode: 'roll',
         speaker: speaker,
         flavor: `<h1>${msgObj.flavor}</h1>`,
-        content: `<h2>${roll._formula} = ${result}</h2>${explanation}`
+        content: content
     }
     let blindOpt = { rollMode: CONST.DICE_ROLL_MODES.BLIND }
 
