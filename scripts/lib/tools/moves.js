@@ -1,12 +1,4 @@
 /**
- * Executes a defy danger move.
- */
-function defyDanger() {
-    let moveTag = "Defy Danger"
-    runMove(moveTag)
-}
-
-/**
  * Choose a move to be executed.
  */
 function chooseMove() {
@@ -205,41 +197,6 @@ function calcProficiency(level) {
 
 /**
  * 
- * This function is used to display a popup with options
- * 
- * @param {*} options Opitions to be displayed in the popup
- * @param {*} action Action to be executed after the selection
- */
-function selectOptionPopup(title, options, action = (selectedItem) => console.log(selectedItem)) {
-    const opcoesHtml = options
-        .map((opcao, index) => `<option value="${index + 1}">${opcao}</option>`)
-        .join('');
-    const content = `
-        <label for="lsilvpinCharSelectPopup">Opções:</label>
-        <select id="lsilvpinCharSelectPopup">${opcoesHtml}</select>
-    `;
-
-    let dialog = Dialog.prompt({
-        title: title,
-        content: content,
-        buttons: {
-            ok: {
-                label: "OK"
-            },
-        },
-        default: 'ok',
-    }, { JQuery: true });
-
-    dialog.then((result) => {
-        let select = document.querySelector('#lsilvpinCharSelectPopup')
-        let selectedIndex = select.value
-        let selectedElement = options[selectedIndex - 1]
-        action(selectedElement)
-    })
-}
-
-/**
- * 
  * This function is used to send the message to the chat
  * 
  * @param {*} speaker Speaker object
@@ -248,12 +205,17 @@ function selectOptionPopup(title, options, action = (selectedItem) => console.lo
  * @param {*} roll Roll object
  */
 function sendMsgToChat(speaker, result, msgObj, roll) {
-    let explanation = genericMsgBuilder(msgObj, roll)
+    let trigger = genericMsgBuilder(msgObj, roll)
+    let content = `<h2>${roll._formula} = ${result}</h2><p>${trigger}</p>`
+    let description = msgObj.description ? msgObj.description : ''
+    if (description != '') {
+        content += `<h3>Descrição:</h3>${description}`
+    }
     let msgData = {
         rollMode: 'roll',
         speaker: speaker,
         flavor: `<h1>${msgObj.flavor}</h1>`,
-        content: `<h2>${roll._formula} = ${result}</h2>${explanation}`
+        content: content
     }
     let blindOpt = { rollMode: CONST.DICE_ROLL_MODES.BLIND }
 

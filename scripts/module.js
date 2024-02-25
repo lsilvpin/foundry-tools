@@ -1,39 +1,56 @@
-
 /**
- * This file contains the initialization and configuration of the lsilvpin module.
- * It defines various hooks and sets up the game object with custom properties and functions.
+ * This hook specifies the initialization of the lsilvpin module.
  */
-
 Hooks.on('init', () => {
-    console.log("Teste custom module")
+    console.log('lsilvpin | Initializing lsilvpin module');
+    console.log('lsilvpin | Module initialized');
 });
 
+/**
+ * This hook specifies the ready event for the lsilvpin module.
+ */
 Hooks.on('ready', () => {
     game.lsilvpin = {
-        /**
-         * The logger object provides logging functionality for the lsilvpin module.
-         * It contains the following methods: info, warn, error.
-         */
-        logger: {
-            info,
-            warn,
-            error
+        tests: {
+            tools: {
+                commonTests: {
+                    testShouldRunAllTests
+                },
+                loggerTests: {
+                    testShouldLogInfo,
+                    testShouldLogWarn,
+                    testShouldLogError
+                },
+                popupsTests: {
+                    testShouldOpenOptionsPopup
+                },
+                cardsTests: {
+                    testShouldGetAllCards
+                }
+            }
         },
-        /**
-         * The chatter object provides chat functionality for the lsilvpin module.
-         * It contains the following method: sendChat.
-         */
-        chatter: {
-            sendChat
-        },
-        /**
-         * The moves object contains various move functions for the lsilvpin module.
-         * It includes the following functions: moveTest, defyDanger, selectCharacterPopup, getMovesData.
-         */
-        moves: {
-            defyDanger,
-            chooseMove,
-            getMovesData
+        tools: {
+            testsHelper: {
+                assert
+            },
+            logger: {
+                info,
+                warn,
+                error
+            },
+            chatter: {
+                sendChat
+            },
+            moves: {
+                chooseMove,
+                getMovesData
+            },
+            popups: {
+                selectOptionPopup
+            },
+            cards: {
+                getAllCards
+            }
         }
     }
 });
