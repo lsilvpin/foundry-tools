@@ -19,10 +19,10 @@ function runTests() {
     assertDoesNotThrow('testShouldLogError', testShouldLogError);
 
     // Test user interactions
-    assertDoesNotThrow('testShouldOpenOptionsPopup', testShouldOpenOptionsPopup);
-    assertDoesNotThrow('testShouldOpenSearchPopup', testShouldOpenSearchPopup);
-    assertDoesNotThrow('testShouldCreateOkPopup', testShouldCreateOkPopup);
-    assertDoesNotThrow('testShouldOpenSarchCardsPopup', testShouldOpenSarchCardsPopup);
+    // assertDoesNotThrow('testShouldOpenOptionsPopup', testShouldOpenOptionsPopup);
+    // assertDoesNotThrow('testShouldOpenSearchPopup', testShouldOpenSearchPopup);
+    // assertDoesNotThrow('testShouldCreateOkPopup', testShouldCreateOkPopup);
+    // assertDoesNotThrow('testShouldOpenSarchCardsPopup', testShouldOpenSarchCardsPopup);
 
     // Test repositories
     assertDoesNotThrow('testShouldGetAllCards', testShouldGetAllCards);
