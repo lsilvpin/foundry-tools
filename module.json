@@ -37,8 +37,10 @@
     {
       "lang": "en",
       "name": "English",
-      "path": "languages/en.json"
+      "path": "languages/en.json",
+      "flags": {}
     }
   ],
-  "license": "LICENSE"
+  "license": "LICENSE",
+  "url": "https://github.com/lsilvpin/foundry-tools.git"
 }
