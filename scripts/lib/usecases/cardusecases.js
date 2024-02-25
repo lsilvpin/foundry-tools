@@ -18,7 +18,6 @@ function createSearchCardsPopup() {
  * @returns {string} - The HTML representation of the cards table.
  */
 function buildCardsTable(filteredList) {
-    // Retornar tabela montada com elementos de filteredList usando x.name, x.suit e x.value, adicionar header na tabela
     return `<table style="width:100%">
         <tr>
             <th>Nome</th>
