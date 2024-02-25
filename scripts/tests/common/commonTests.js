@@ -20,6 +20,8 @@ function runTests() {
 
     // Test user interactions
     assertDoesNotThrow('testShouldOpenOptionsPopup', testShouldOpenOptionsPopup);
+    assertDoesNotThrow('testShouldOpenSearchPopup', testShouldOpenSearchPopup);
+    assertDoesNotThrow('testShouldCreateOkPopup', testShouldCreateOkPopup);
 
     // Test repositories
     assertDoesNotThrow('testShouldGetAllCards', testShouldGetAllCards);
