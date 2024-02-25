@@ -18,11 +18,15 @@
     "scripts/tests/common/commonTests.js",
     "scripts/tests/lib/tools/loggerTests.js",
     "scripts/tests/lib/tools/popupsTests.js",
+    "scripts/tests/lib/repositories/cardsTests.js",
+    "scripts/lib/helpers/testsHelper.js",
     "scripts/lib/models/movesList.js",
+    "scripts/lib/models/testResults.js",
     "scripts/lib/tools/popups.js",
     "scripts/lib/tools/logger.js",
     "scripts/lib/tools/chatter.js",
-    "scripts/lib/tools/moves.js"
+    "scripts/lib/tools/moves.js",
+    "scripts/lib/repositories/cardsRepository.js"
   ],
   "styles": [
     "styles/module.css"

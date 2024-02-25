@@ -14,19 +14,25 @@ Hooks.on('ready', () => {
         tests: {
             tools: {
                 commonTests: {
-                    runAllTests
+                    testShouldRunAllTests
                 },
                 loggerTests: {
-                    testInfo,
-                    testWarn,
-                    testError
+                    testShouldLogInfo,
+                    testShouldLogWarn,
+                    testShouldLogError
                 },
                 popupsTests: {
-                    testSelectOptionPopup
+                    testShouldOpenOptionsPopup
+                },
+                cardsTests: {
+                    testShouldGetAllCards
                 }
             }
         },
         tools: {
+            testsHelper: {
+                assert
+            },
             logger: {
                 info,
                 warn,
@@ -41,6 +47,9 @@ Hooks.on('ready', () => {
             },
             popups: {
                 selectOptionPopup
+            },
+            cards: {
+                getAllCards
             }
         }
     }

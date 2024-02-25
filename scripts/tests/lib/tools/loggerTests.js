@@ -2,7 +2,7 @@
 /**
  * Test the 'info' function.
  */
-function testInfo() {
+function testShouldLogInfo() {
     const message = "This is an informational message";
     info(message);
 }
@@ -10,7 +10,7 @@ function testInfo() {
 /**
  * Test the 'warn' function.
  */
-function testWarn() {
+function testShouldLogWarn() {
     const message = "This is a warning message";
     warn(message);
 }
@@ -18,7 +18,7 @@ function testWarn() {
 /**
  * Test the 'error' function.
  */
-function testError() {
+function testShouldLogError() {
     const errorMsg = new Error("This is an error");
     error(errorMsg);
 }

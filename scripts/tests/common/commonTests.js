@@ -1,10 +1,26 @@
 
 /**
- * Runs all the tests.
+ * Runs all the tests and logs the test results.
  */
-function runAllTests() {
-    testInfo()
-    testWarn()
-    testError()
-    testSelectOptionPopup()
+function testShouldRunAllTests() {
+    runTests();
+    console.log('Test Results:');
+    console.log('Passed:', TEST_RESULTS.passed);
+    console.log('Failed:', TEST_RESULTS.failed);
+}
+
+/**
+ * Runs all the individual tests.
+ */
+function runTests() {
+    // Test tools
+    assertDoesNotThrow('testShouldLogInfo', testShouldLogInfo);
+    assertDoesNotThrow('testShouldLogWarn', testShouldLogWarn);
+    assertDoesNotThrow('testShouldLogError', testShouldLogError);
+
+    // Test user interactions
+    assertDoesNotThrow('testShouldOpenOptionsPopup', testShouldOpenOptionsPopup);
+
+    // Test repositories
+    assertDoesNotThrow('testShouldGetAllCards', testShouldGetAllCards);
 }
