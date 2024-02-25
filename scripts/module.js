@@ -22,7 +22,10 @@ Hooks.on('ready', () => {
                     testShouldLogError
                 },
                 popupsTests: {
-                    testShouldOpenOptionsPopup
+                    testShouldOpenOptionsPopup,
+                    testShouldOpenSearchPopup,
+                    testShouldCreateOkPopup,
+                    testShouldOpenSarchCardsPopup
                 },
                 cardsTests: {
                     testShouldGetAllCards
@@ -46,7 +49,10 @@ Hooks.on('ready', () => {
                 getMovesData
             },
             popups: {
-                selectOptionPopup
+                selectOptionPopup,
+                searchListPopup,
+                createOkPopup,
+                createSearchCardsPopup
             },
             cards: {
                 getAllCards
