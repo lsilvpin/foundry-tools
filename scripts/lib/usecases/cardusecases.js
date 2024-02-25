@@ -18,24 +18,23 @@ function createSearchCardsPopup() {
  * @returns {string} - The HTML representation of the cards table.
  */
 function buildCardsTable(filteredList) {
-    // Retornar tabela montada com elementos de filteredList usando x.name, x.suit e x.value, adicionar header na tabela
     return `<table style="width:100%">
         <tr>
             <th>Nome</th>
             <th>Moeda</th>
             <th>Valor</th>
         </tr>
-        ${filteredList.map(x => `<tr><td>${x.name}</td><td>${x.suit}</td><td>${x.value}</td></tr>`).join('')}`;
+        ${filteredList.map(c => `<tr><td>${c.name}</td><td>${c.suit}</td><td>${c.value}</td></tr>`).join('')}`;
 }
 
 /**
  * Filters the cards based on the search term.
  * @param {string} search - The search term.
- * @param {Object} x - The card object.
+ * @param {Object} card - The card object.
  * @returns {boolean} - True if the card name includes the search term, false otherwise.
  */
-function filterCards(search, x) {
-    return x.name.toLowerCase().includes(search.toLowerCase()) || 
-        x.suit.toLowerCase().includes(search.toLowerCase()) || 
-        x.value.toString().toLowerCase().includes(search.toLowerCase());
+function filterCards(search, card) {
+    return card.name.toLowerCase().includes(search.toLowerCase()) || 
+        card.suit.toLowerCase().includes(search.toLowerCase()) || 
+        card.value.toString().toLowerCase().includes(search.toLowerCase());
 }
