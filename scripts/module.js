@@ -2,7 +2,8 @@
  * This hook specifies the initialization of the lsilvpin module.
  */
 Hooks.on('init', () => {
-    console.log("Teste custom module")
+    console.log('lsilvpin | Initializing lsilvpin module');
+    console.log('lsilvpin | Module initialized');
 });
 
 /**
@@ -10,26 +11,37 @@ Hooks.on('init', () => {
  */
 Hooks.on('ready', () => {
     game.lsilvpin = {
-        /**
-         * The logger object provides logging functionality for the lsilvpin module.
-         */
-        logger: {
-            info,
-            warn,
-            error
+        tests: {
+            tools: {
+                commonTests: {
+                    runAllTests
+                },
+                loggerTests: {
+                    testInfo,
+                    testWarn,
+                    testError
+                },
+                popupsTests: {
+                    testSelectOptionPopup
+                }
+            }
         },
-        /**
-         * The chatter object provides chat functionality for the lsilvpin module.
-         */
-        chatter: {
-            sendChat
-        },
-        /**
-         * The moves object provides move functionality for the lsilvpin module.
-         */
-        moves: {
-            chooseMove,
-            getMovesData
+        tools: {
+            logger: {
+                info,
+                warn,
+                error
+            },
+            chatter: {
+                sendChat
+            },
+            moves: {
+                chooseMove,
+                getMovesData
+            },
+            popups: {
+                selectOptionPopup
+            }
         }
     }
 });
