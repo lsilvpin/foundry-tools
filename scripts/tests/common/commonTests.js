@@ -22,6 +22,7 @@ function runTests() {
     assertDoesNotThrow('testShouldOpenOptionsPopup', testShouldOpenOptionsPopup);
     assertDoesNotThrow('testShouldOpenSearchPopup', testShouldOpenSearchPopup);
     assertDoesNotThrow('testShouldCreateOkPopup', testShouldCreateOkPopup);
+    assertDoesNotThrow('testShouldOpenSarchCardsPopup', testShouldOpenSarchCardsPopup);
 
     // Test repositories
     assertDoesNotThrow('testShouldGetAllCards', testShouldGetAllCards);
