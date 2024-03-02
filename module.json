@@ -8,7 +8,8 @@
   },
   "authors": [
     {
-      "name": "Luís Henrique da Silva Pinheiro"
+      "name": "Luís Henrique da Silva Pinheiro",
+      "email": "lsilvpin@gmail.com"
     }
   ],
   "esmodules": [
@@ -42,5 +43,11 @@
     }
   ],
   "license": "LICENSE",
-  "url": "https://github.com/lsilvpin/foundry-tools.git"
+  "url": "https://github.com/lsilvpin/foundry-tools.git",
+  "manifest": "https://github.com/lsilvpin/foundry-tools/blob/master/module.json",
+  "bugs": "https://github.com/lsilvpin/foundry-tools/issues",
+  "readme": "https://github.com/lsilvpin/foundry-tools/blob/master/README.md",
+  "flags": {
+    "allowBugReporter": true
+  }
 }
