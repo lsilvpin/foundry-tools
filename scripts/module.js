@@ -28,7 +28,8 @@ Hooks.on('ready', () => {
                     testShouldOpenSarchCardsPopup
                 },
                 cardsTests: {
-                    testShouldGetAllCards
+                    testShouldGetAllCards,
+                    testShouldGetCardSetNames
                 }
             }
         },
@@ -55,7 +56,8 @@ Hooks.on('ready', () => {
                 createSearchCardsPopup
             },
             cards: {
-                getAllCards
+                getAllCards,
+                getCardSetNames
             }
         }
     }

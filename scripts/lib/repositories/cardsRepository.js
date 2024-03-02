@@ -15,3 +15,11 @@ function getAllCards() {
 function searchCards(pattern) {
     return getAllCards().filter(c => c.name.includes(pattern));
 }
+
+/**
+ * Retrieves the names of all card sets in the game.
+ * @returns {Array} An array containing the names of all card sets.
+ */
+function getCardSetNames() {
+    return game.cards.map(b => b.name);
+}

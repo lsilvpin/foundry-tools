@@ -27,4 +27,5 @@ function runTests() {
     // Test repositories
     assertDoesNotThrow('testShouldGetAllCards', testShouldGetAllCards);
     assertDoesNotThrow('testShouldSearchCardsForAbaco', testShouldSearchCardsForAbaco);
+    assertDoesNotThrow('testShouldGetCardSetNames', testShouldGetCardSetNames);
 }
